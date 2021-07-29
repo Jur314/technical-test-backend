@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "076703d2-ab84-4093-8722-0b4c632b13a1",
+		"name": "PlayTonic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Wallet",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/getWallet?id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"getWallet"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pay Money",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \n    \"id\": 1,\n    \"currentBalance\": 10.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/pay",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"pay"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "currentBalance",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pay Money Fail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \n    \"id\": 1,\n    \"currentBalance\": 3.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/pay",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"pay"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Charge",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \n    \"id\": 1,\n    \"currentBalance\": 3.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/charge",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"charge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Charge Fail",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \n    \"id\": 1,\n    \"currentBalance\": 3.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8090/charge",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"charge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}
