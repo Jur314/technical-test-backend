@@ -17,13 +17,12 @@ You have to code endpoints for these operations:
 
 ## How Works? 🚀
 
+First, run the SpringBoot app. The easy way to interact with the API is to use:
 
-
-
-```
-Example
-
-
+* POSTMAN
+    ```
+    There is a collection in /resources/PlayTonic.postman_collection.json for testing the Api Calls.
 ## Build with 🛠️
 
-* [Maven](https://maven.apache.org/) - Manage Dependencies.
+* [Maven](https://maven.apache.org/) - Manage Dependencies
+* [SpringBoot]() - Java Framework
