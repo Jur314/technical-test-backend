@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  */
 @Service
 public class StripeService {
-    final private static BigDecimal THRESHOLD = new BigDecimal(10);
+    private static final BigDecimal THRESHOLD = new BigDecimal(10);
 
     /**
      * Charges money in the credit card.
