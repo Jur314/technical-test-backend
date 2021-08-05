@@ -11,7 +11,7 @@ public class WalletNotFoundException extends RuntimeException {
     
     private final Logger log = LoggerFactory.getLogger(WalletNotFoundException.class);
 
-    WalletNotFoundException(Long id) {   
+    public WalletNotFoundException(Long id) {   
         super("Could not find wallet " + id);
         log.warn("Could not find wallet " +id);
     }

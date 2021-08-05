@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class WalletInsuficientFoundsException extends RuntimeException{
     private final Logger log = LoggerFactory.getLogger(WalletInsuficientFoundsException.class);
 
-    WalletInsuficientFoundsException(Long id) {   
+    public WalletInsuficientFoundsException(Long id) {   
         super("Operation Cancelled, Insufiecient founds for wallet " + id);
         log.warn("WalletService:::updateBalance() Insuficient founds for wallet " +id);
     }
