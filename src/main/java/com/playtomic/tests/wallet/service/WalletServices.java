@@ -1,5 +1,7 @@
 package com.playtomic.tests.wallet.service;
 
+import com.playtomic.tests.wallet.assemblers.WalletModelAssembler;
+import com.playtomic.tests.wallet.entities.WalletEntity;
 import com.playtomic.tests.wallet.model.WalletModel;
 import com.playtomic.tests.wallet.repository.WalletRepository;
 
@@ -19,19 +21,23 @@ public class WalletServices {
     @Autowired
     StripeService stripeService;
 
+    @Autowired
+    WalletModelAssembler walletModelAssembler;
+
     /**
      * Return a wallet by his id and, in case is not founded
      * throws an exception
      *
      * @param id The wallet id
-     * @return wallet The wallet with all the information
+     * @return WalletModel The wallet with all the information
      *
      * @throws WalletNotFoundException
      */
     public WalletModel walletInfo(long id) {
 
         return walletRepository.findById(id)
-        .orElseThrow(() -> new WalletNotFoundException(id));
+            .map(walletModelAssembler::toModel)
+            .orElseThrow(() -> new WalletNotFoundException(id));
     }
 
     /**
@@ -46,13 +52,18 @@ public class WalletServices {
      * @throws WalletNotFoundException
      */
     public WalletModel pay(WalletModel wallet) {
-        WalletModel walletToUpdate = walletRepository.findById(wallet.getId())
-            .orElseThrow(() -> new WalletNotFoundException(wallet.getId()));
+
+        WalletModel walletToUpdate = walletInfo(wallet.getId());
+
+        stripeService.charge("4242 4242 4242 4242", wallet.getCurrentBalance());
 
         walletToUpdate.setCurrentBalance(walletToUpdate.getCurrentBalance().add(wallet.getCurrentBalance()));
 
-        stripeService.charge("4242 4242 4242 4242", walletToUpdate.getCurrentBalance());
-        walletRepository.save(walletToUpdate);
+        WalletEntity walletEntity = new WalletEntity();
+        walletEntity.setId(walletToUpdate.getId());
+        walletEntity.setCurrentBalance(walletToUpdate.getCurrentBalance());
+
+        walletRepository.save(walletEntity);
 
         return walletToUpdate;
     }
@@ -67,16 +78,21 @@ public class WalletServices {
      * @throws WalletInsuficientFoundsException
      */
     public WalletModel updateBalance(WalletModel wallet) {
-        WalletModel walletToUpdate = walletRepository.findById(wallet.getId())
-            .orElseThrow(() -> new WalletNotFoundException(wallet.getId()));
+        WalletModel walletToUpdate = walletInfo(wallet.getId());
 
         if(wallet.getCurrentBalance().compareTo(walletToUpdate.getCurrentBalance()) <= 0) {
             walletToUpdate.setCurrentBalance(walletToUpdate.getCurrentBalance().subtract(wallet.getCurrentBalance()));
             
+            WalletEntity walletEntity = new WalletEntity();
+            walletEntity.setId(walletToUpdate.getId());
+            walletEntity.setCurrentBalance(walletToUpdate.getCurrentBalance());
+
+            walletRepository.save(walletEntity);
+
         } else {
             throw new WalletInsuficientFoundsException(wallet.getId());
         }
 
-        return walletRepository.save(walletToUpdate);
+        return walletToUpdate;
     }
 }
