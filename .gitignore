@@ -24,3 +24,4 @@ nbdist/
 
 ### VS CODE ###
 .vscode
+target/
