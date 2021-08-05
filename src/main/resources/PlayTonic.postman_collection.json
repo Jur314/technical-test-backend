@@ -7,22 +7,55 @@
 	"item": [
 		{
 			"name": "Wallet",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
-					"raw": "localhost:8090/getWallet?id=1",
+					"raw": "localhost:8090/api/wallets?id=1",
 					"host": [
 						"localhost"
 					],
 					"port": "8090",
 					"path": [
-						"getWallet"
+						"api",
+						"wallets"
 					],
 					"query": [
 						{
 							"key": "id",
 							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Wallet By Id Fail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8090/api/wallets?id=11",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						"wallets"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "11"
 						}
 					]
 				}
@@ -44,12 +77,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8090/pay",
+					"raw": "localhost:8090/api/pay",
 					"host": [
 						"localhost"
 					],
 					"port": "8090",
 					"path": [
+						"api",
 						"pay"
 					],
 					"query": [
@@ -83,12 +117,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8090/pay",
+					"raw": "localhost:8090/api/pay",
 					"host": [
 						"localhost"
 					],
 					"port": "8090",
 					"path": [
+						"api",
 						"pay"
 					]
 				}
@@ -102,7 +137,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{    \n    \"id\": 1,\n    \"currentBalance\": 3.00\n}",
+					"raw": "{    \n    \"id\": 1,\n    \"currentBalance\": 1.00\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -110,12 +145,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8090/charge",
+					"raw": "localhost:8090/api/charge",
 					"host": [
 						"localhost"
 					],
 					"port": "8090",
 					"path": [
+						"api",
 						"charge"
 					]
 				}
@@ -137,12 +173,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8090/charge",
+					"raw": "localhost:8090/api/charge",
 					"host": [
 						"localhost"
 					],
 					"port": "8090",
 					"path": [
+						"api",
 						"charge"
 					]
 				}
@@ -154,7 +191,17 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": null
+				"url": {
+					"raw": "localhost:8090/api/",
+					"host": [
+						"localhost"
+					],
+					"port": "8090",
+					"path": [
+						"api",
+						""
+					]
+				}
 			},
 			"response": []
 		}
