@@ -1,37 +1,33 @@
-package com.playtomic.tests.wallet.model;
+package com.playtomic.tests.wallet.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.server.core.Relation;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-/**
- * A Wallet.
- *
- */
+
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-@Relation(collectionRelation = "wallets", itemRelation = "wallet")
-@JsonInclude(Include.NON_NULL)
-public class WalletModel extends RepresentationModel<WalletModel>{
+@NoArgsConstructor
+@Entity
+@Table(name = "wallet")
+public class WalletEntity implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private BigDecimal currentBalance;
     
