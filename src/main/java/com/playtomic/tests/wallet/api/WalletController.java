@@ -3,8 +3,10 @@ package com.playtomic.tests.wallet.api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.LinkRelation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,8 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.playtomic.tests.wallet.model.WalletModel;
 import com.playtomic.tests.wallet.service.WalletServices;
@@ -27,37 +27,47 @@ public class WalletController {
     @Autowired
     private WalletServices walletServices;
 
-    @RequestMapping("/")
+    @RequestMapping("api/")
     public void log() {
-        log.info("Logging from /");
+        log.info("Logging from api/");
     }
 
-    @GetMapping("/wallet")
-    public EntityModel<WalletModel> getWallet(@RequestParam Long id) {
+    @GetMapping(
+        value="/api/wallets", 
+        params = "id"
+    )
+    public WalletModel getWalletById(@RequestParam("id") Long id) {
 
-        Link link = linkTo(WalletController.class).withSelfRel();
-        log.info("Accesing from /wallet to wallet " + id );
+        log.info("/api/wallets/".concat(String.valueOf(id)));
 
-        return EntityModel.of(walletServices.walletInfo(id), link);
+        return walletServices.walletInfo(id);
     }
 
-    @PutMapping("/pay")
+    @PutMapping("api/pay")
     @ResponseStatus(HttpStatus.OK)
     public EntityModel<WalletModel> rechargeWallet(@RequestBody WalletModel wallet) {
 
-        Link link = linkTo(WalletController.class).withSelfRel();
-        log.info("/pay ");
+        log.info("api/pay ");
 
-        return EntityModel.of(walletServices.pay(wallet), link);
+        WalletModel walletModel = walletServices.pay(wallet);
+        walletModel.add( 
+            Link.of("/api/pay/{walletId}").withRel(LinkRelation.of("payments"))
+                .expand(walletModel.getId()));
+
+        return EntityModel.of(walletModel);
     }
 
-    @PatchMapping("/charge")
+    @PatchMapping("api/charge")
     @ResponseStatus(HttpStatus.OK)
     public EntityModel<WalletModel> chargeWallet(@RequestBody WalletModel wallet) {
 
-        Link link = linkTo(WalletController.class).withSelfRel();
-        log.info("/charge wallet ");
+        log.info("api/charge wallet ");
+
+        WalletModel walletModel = walletServices.updateBalance(wallet);
+        walletModel.add( 
+            Link.of("/api/charge/{walletId}").withRel(LinkRelation.of("charges"))
+                .expand(walletModel.getId()));
         
-        return EntityModel.of(walletServices.updateBalance(wallet), link);
+        return EntityModel.of(walletModel);
     }
 }
